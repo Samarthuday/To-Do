@@ -3,7 +3,7 @@
 $servername = "localhost";  // Replace with your MySQL server name
 $username = "root";     // Replace with your MySQL username
 $password = "";     // Replace with your MySQL password
-$dbname = "users";       // Replace with your MySQL database name
+$dbname = "to_do_list";       // Replace with your MySQL database name
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -25,11 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO users  VALUES ('$name', '$email', '$password')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
-        // Redirect to a success page or login page
-        // header("Location: login.html");
-        // exit();
+        // Successful signup
+        echo '<script>';
+        echo 'alert("Successfully signed up!");';
+        echo 'window.location.href = "login.html";';  // Redirect to login page
+        echo '</script>';
     } else {
+        // Error in query execution
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 }
