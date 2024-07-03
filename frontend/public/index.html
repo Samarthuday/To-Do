@@ -20,7 +20,7 @@
         #pricing,
         #feedback,
         #contact {
-            padding: 4rem 0;
+            padding: 6rem 0; /* Add extra padding to the top */
             text-align: center; /* Center align content */
         }
 
@@ -147,6 +147,15 @@
 
         .social-icons a:hover {
             color: #333;
+        }
+
+        /* Ensure the header remains fixed when scrolling */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
         }
     </style>
 </head>
@@ -288,10 +297,15 @@
     </footer>
 
     <script>
-        // Smooth scroll function
+        // Smooth scroll function with offset for fixed header
         function smoothScroll(target) {
             const element = document.getElementById(target);
-            element.scrollIntoView({
+            const headerOffset = 70; // Adjust this value based on your header's height
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition - headerOffset;
+
+            window.scrollBy({
+                top: offsetPosition,
                 behavior: 'smooth'
             });
         }
