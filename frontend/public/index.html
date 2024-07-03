@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="night">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TO-DOIT</title>
+    <title>TaskMaster</title>
 
     <!-- Tailwind CSS & Daisy UI CSS -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@2.18.0/dist/full.css" rel="stylesheet" type="text/css" />
@@ -12,28 +13,300 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Custom styles for About, Features, Pricing, and Feedback sections */
+        #about,
+        #features,
+        #pricing,
+        #feedback,
+        #contact {
+            padding: 4rem 0;
+            text-align: center; /* Center align content */
+        }
+
+        #about .container,
+        #features .container,
+        #pricing .container,
+        #feedback .container,
+        #contact .container {
+            max-width: 800px;
+            margin: auto; /* Center align container */
+            text-align: center; /* Center align text inside container */
+        }
+
+        #about h2,
+        #features h2,
+        #pricing h2,
+        #feedback h2,
+        #contact h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        #about p,
+        #features ul,
+        #pricing p,
+        #feedback form,
+        #contact .contact-info p {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: #666;
+            text-align: left;
+        }
+
+        #features ul {
+            text-align: left;
+            margin-left: 2rem;
+        }
+
+        .pricing-card {
+            border-radius: 8px;
+            background-color: #f8f8f8;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-card ul {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-card .price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-card .btn {
+            display: inline-block;
+            background-color: #333;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 999px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .pricing-card .btn:hover {
+            background-color: #555;
+        }
+
+        .input {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            transition: border-color 0.3s ease;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: #333;
+        }
+
+        .btn-primary {
+            background-color: #333;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 999px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #555;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #333;
+        }
+    </style>
 </head>
-<body>
-    <nav class="flex justify-between items-center p-4 bg-base-200 shadow-lg fixed w-full top-0 left-0 z-50">
-        <h1 class="text-3xl font-bold">TO-DOIT</h1>
+
+<body class="bg-gray-900 text-white flex flex-col min-h-screen">
+    <nav class="flex justify-between items-center p-6 bg-gray-800 shadow-lg w-full">
+        <div class="flex items-center space-x-4 justify-center">
+            <h1 class="text-3xl font-bold">TaskMaster</h1>
+            <a href="#about" class="btn btn-outline btn-info" onclick="smoothScroll('about')">About</a>
+            <a href="#features" class="btn btn-outline btn-info" onclick="smoothScroll('features')">Features</a>
+            <a href="#pricing" class="btn btn-outline btn-info" onclick="smoothScroll('pricing')">Pricing</a>
+            <a href="#feedback" class="btn btn-outline btn-info" onclick="smoothScroll('feedback')">Feedback</a>
+            <a href="#contact" class="btn btn-outline btn-info" onclick="smoothScroll('contact')">Contact Us</a>
+        </div>
         <div>
             <a href="login.html" class="btn btn-primary mx-2">Login</a>
-            <a href="signup.html" class="btn btn-secondary">Sign Up</a>
+            <a href="signup.html" class="btn btn-primary">Sign Up</a>
         </div>
     </nav>
 
-    <header class="hero-section flex justify-center items-center">
-        <div class="hero-content text-center">
-            <h1 class="text-5xl font-bold mb-5">Welcome to TO-DOIT</h1>
-            <p class="text-xl mb-5">Manage your tasks efficiently and stay organized</p>
-            <a href="signup.html" class="btn btn-primary btn-lg">Get Started</a>
+    <!-- About Section -->
+    <section id="about" class="bg-white py-8 hidden">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-4">About TaskMaster</h2>
+            <p class="text-lg mb-4">TaskMaster Inc. is a cutting-edge technology company dedicated to improving productivity and task management for individuals and businesses alike. Founded in 2020, we have quickly become a trusted name in the productivity software industry.</p>
+            <p class="text-lg mb-4">Our mission is to empower individuals and teams to achieve their goals with ease and efficiency. We provide innovative solutions that streamline workflows, enhance collaboration, and ensure data security.</p>
+            <p class="text-lg mb-4">With TaskMaster, you can organize tasks effectively, set reminders, collaborate with team members, and integrate seamlessly with other tools. Whether you're a freelancer managing projects or a large corporation coordinating complex tasks, TaskMaster is designed to meet your needs.</p>
         </div>
-    </header>
+    </section>
 
-    <footer class="footer">
-        <div class="text-center py-4">
-            <p>&copy; All rights reserved, 2024</p>
+    <!-- Features Section -->
+    <section id="features" class="bg-gray-100 py-8 hidden">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-4">Key Features:</h2>
+            <ul class="list-disc pl-6 mb-4">
+                <li>Intuitive Interface</li>
+                <li>Task Organization</li>
+                <li>Reminders and Notifications</li>
+                <li>Collaboration Tools</li>
+                <li>Integration and Syncing</li>
+                <li>Advanced Features</li>
+                <li>Security and Privacy</li>
+            </ul>
         </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="bg-white py-8 hidden">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-4">Pricing</h2>
+            <div class="flex justify-center">
+                <div class="pricing-card">
+                    <h3>Starter Plan</h3>
+                    <ul>
+                        <li>Basic features included</li>
+                        <li>Up to 5 projects</li>
+                        <li>Monthly updates</li>
+                    </ul>
+                    <p class="price">$9.99 / month</p>
+                    <a href="#" class="btn btn-primary">Choose Plan</a>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Pro Plan</h3>
+                    <ul>
+                        <li>All features included</li>
+                        <li>Unlimited projects</li>
+                        <li>Premium support</li>
+                    </ul>
+                    <p class="price">$19.99 / month</p>
+                    <a href="#" class="btn btn-primary">Choose Plan</a>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Enterprise Plan</h3>
+                    <ul>
+                        <li>Advanced features included</li>
+                        <li>Custom solutions</li>
+                        <li>Dedicated account manager</li>
+                    </ul>
+                    <p class="price">Contact Us</p>
+                    <a href="#" class="btn btn-primary">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback Form Section -->
+    <section id="feedback" class="bg-gray-900 text-white py-8 hidden">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-4">Feedback Form:</h2>
+            <form action="#" method="POST" class="max-w-md mx-auto">
+                <div class="mb-4">
+                    <label for="name" class="block mb-2">Your Name:</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" class="input input-bordered w-full" required>
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block mb-2">Your Email:</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" class="input input-bordered w-full" required>
+                </div>
+                <div class="mb-4">
+                    <label for="message" class="block mb-2">Your Message:</label>
+                    <textarea id="message" name="message" placeholder="Enter your message" rows="4" class="input input-bordered w-full" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-full">Submit Feedback</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section id="contact" class="bg-white py-8 hidden">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-4">Contact Us:</h2>
+            <div class="contact-info">
+                <div class="flex items-center mb-4">
+                    <i class='bx bx-envelope text-2xl mr-2'></i>
+                    <p class="text-lg">support@taskmaster.com</p>
+                </div>
+                <div class="flex items-center mb-4">
+                    <i class='bx bx-phone text-2xl mr-2'></i>
+                    <p class="text-lg">+1 (800) 123-4567</p>
+                </div>
+                <div class="flex items-center mb-4">
+                    <i class='bx bx-map text-2xl mr-2'></i>
+                    <p class="text-lg">123 TaskMaster St, City, Country</p>
+                </div>
+                <div class="social-icons">
+                    <a href="#" class="text-gray-400 hover:text-gray-600"><i class='bx bxl-facebook-square'></i></a>
+                    <a href="#" class="text-gray-400 hover:text-gray-600"><i class='bx bxl-twitter'></i></a>
+                    <a href="#" class="text-gray-400 hover:text-gray-600"><i class='bx bxl-linkedin-square'></i></a>
+                    <a href="#" class="text-gray-400 hover:text-gray-600"><i class='bx bxl-instagram'></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer bg-gray-800 py-4 w-full mt-auto flex justify-center">
+        <p>&copy; All rights reserved, 2024 TaskMaster Inc.</p>
     </footer>
+
+    <script>
+        // Smooth scroll function
+        function smoothScroll(target) {
+            const element = document.getElementById(target);
+            element.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Show content after the slideshow
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('about').classList.remove('hidden');
+                document.getElementById('features').classList.remove('hidden');
+                document.getElementById('pricing').classList.remove('hidden');
+                document.getElementById('feedback').classList.remove('hidden');
+                document.getElementById('contact').classList.remove('hidden');
+            }, 6000); // Delay showing the content for 6 seconds
+        });
+    </script>
 </body>
+
 </html>
