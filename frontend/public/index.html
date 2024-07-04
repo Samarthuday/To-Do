@@ -149,11 +149,35 @@
         .social-icons a:hover {
             color: #333;
         }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            margin-right: 1rem;
+        }
+
+        .dropdown {
+            margin-right: 1rem;
+        }
+
+        /* Styles for the fixed header */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        /* Add padding to the top of the body to prevent content from being hidden behind the fixed header */
+        body {
+            padding-top: 80px; /* Adjust this value based on the height of your header */
+        }
     </style>
 </head>
 
 <body class="bg-gray-900 text-white flex flex-col min-h-screen">
-    <nav class="flex justify-between items-center p-6 bg-gray-800 shadow-lg w-full">
+    <nav class="fixed-header flex justify-between items-center p-6 bg-gray-800 shadow-lg w-full">
         <div class="flex items-center space-x-4 justify-center">
             <h1 class="text-3xl font-bold">TaskMaster</h1>
             <a href="#about" class="btn btn-outline btn-info" onclick="smoothScroll('about')">About</a>
@@ -162,7 +186,12 @@
             <a href="#feedback" class="btn btn-outline btn-info" onclick="smoothScroll('feedback')">Feedback</a>
             <a href="#contact" class="btn btn-outline btn-info" onclick="smoothScroll('contact')">Contact Us</a>
         </div>
-        <div>
+        <div class="flex items-center">
+            <!-- Theme Toggle Switch -->
+            <div class="theme-toggle">
+                <input type="checkbox" id="theme-toggle" class="toggle toggle-primary" onchange="toggleTheme()">
+                <label for="theme-toggle" class="ml-2">Dark Mode</label>
+            </div>
             <a href="login.html" class="btn btn-primary mx-2">Login</a>
             <a href="signup.html" class="btn btn-primary">Sign Up</a>
         </div>
@@ -207,7 +236,7 @@
                         <li>Monthly updates</li>
                     </ul>
                     <p class="price">$9.99 / month</p>
-                    <a href="#" class="btn btn-primary">Choose Plan</a>
+                    <a href="subscribe.html" class="btn btn-primary">Choose Plan</a>
                 </div>
 
                 <div class="pricing-card">
@@ -218,7 +247,7 @@
                         <li>Premium support</li>
                     </ul>
                     <p class="price">$19.99 / month</p>
-                    <a href="#" class="btn btn-primary">Choose Plan</a>
+                    <a href="pro.html" class="btn btn-primary">Choose Plan</a>
                 </div>
 
                 <div class="pricing-card">
@@ -305,7 +334,7 @@
                 document.getElementById('pricing').classList.remove('hidden');
                 document.getElementById('feedback').classList.remove('hidden');
                 document.getElementById('contact').classList.remove('hidden');
-            }, 6000); // Delay showing the content for 6 seconds
+            }, 1000); // Delay showing the content for 6 seconds
         });
     </script>
 </body>

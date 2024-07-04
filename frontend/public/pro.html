@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscribe to Plans - TaskMaster</title>
+
+    <!-- Tailwind CSS & Daisy UI CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.18.0/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #ffffff; /* white background */
+            color: #1a202c; /* text color */
+        }
+
+        .navbar {
+            background-color: #1a202c; /* blue navbar background */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow */
+        }
+
+        .theme-toggle label {
+            color: #666; /* Dark gray for toggle label */
+        }
+
+        .form-container {
+            background-color: #ffffff; /* dark blue form background */
+        }
+
+        .services-section {
+            background-color: #f8f9fa; /* Apple-like light gray background for services */
+            padding: 2rem;
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow */
+            margin-top: 80px; /* Adjusted margin to accommodate fixed header */
+            margin-bottom: 2rem;
+        }
+
+        .services-title {
+            font-size: 1.5rem; /* Larger font size */
+            font-weight: 600; /* Bold */
+            color: #333; /* Dark gray text color */
+            margin-bottom: 1rem;
+        }
+
+        .service-item {
+            color: #555; /* Slightly darker gray text */
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header {
+            margin-bottom: 2rem;
+        }
+
+        .footer {
+            background-color: #333; /* Dark footer background */
+            color: #ffffff; /* White text */
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        /* Fixed Header */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000; /* Ensure it's above other content */
+        }
+
+        .main-content {
+            margin-top: 80px; /* Adjust margin to avoid content hiding under fixed header */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+    <nav class="fixed-header navbar flex justify-between items-center p-6 bg-gray-800 shadow-lg w-full">
+        <div class="flex items-center space-x-4">
+            <h1 class="text-3xl font-bold text-white">TaskMaster</h1>
+            <a href="index.html#about" class="btn btn-outline btn-info">About</a>
+            <a href="index.html#features" class="btn btn-outline btn-info">Features</a>
+            <a href="index.html#pricing" class="btn btn-outline btn-info">Pricing</a>
+            <a href="index.html#feedback" class="btn btn-outline btn-info">Feedback</a>
+            <a href="index.html#contact" class="btn btn-outline btn-info">Contact Us</a>
+        </div>
+        <div class="flex items-center">
+            <div class="theme-toggle">
+                <input type="checkbox" id="theme-toggle" class="toggle toggle-primary" onchange="toggleTheme()">
+                <label for="theme-toggle" class="ml-2">Dark Mode</label>
+            </div>
+            <a href="login.html" class="btn btn-primary mx-2">Login</a>
+            <a href="signup.html" class="btn btn-primary">Sign Up</a>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 main-content">
+        <div class="services-section mb-6">
+            <h2 class="services-title">Services Offered</h2>
+            <ul class="list-disc ml-6">
+                <li class="service-item">Access to all premium features</li>
+                <li class="service-item">24/7 customer support</li>
+                <li class="service-item">Exclusive content and updates</li>
+                <li class="service-item">Priority access to new features</li>
+            </ul>
+        </div>
+
+        <div class="form-container p-6">
+            <div class="form-header mb-6">
+                <h2 class="text-2xl font-bold">Subscribe to Pro Plan</h2>
+            </div>
+
+            <!-- Pro Plan Form -->
+            <form action="payment.html" method="POST" class="w-full" onsubmit="return validateForm('pro')">
+                <input type="hidden" name="plan" value="Pro">
+                <div class="mb-4">
+                    <label for="full-name-pro" class="block mb-2 font-semibold">Full Name</label>
+                    <input type="text" id="full-name-pro" name="full-name" placeholder="Enter your full name"
+                        class="input input-bordered form-input w-full" required>
+                </div>
+                <div class="mb-4">
+                    <label for="email-pro" class="block mb-2 font-semibold">Email</label>
+                    <input type="email" id="email-pro" name="email" placeholder="Enter your email"
+                        class="input input-bordered form-input w-full" required>
+                </div>
+                <div class="mb-4">
+                    <label for="password-pro" class="block mb-2 font-semibold">Password</label>
+                    <input type="password" id="password-pro" name="password" placeholder="Create a password"
+                        class="input input-bordered form-input w-full" required>
+                </div>
+                <div class="mb-4">
+                    <label for="confirm-password-pro" class="block mb-2 font-semibold">Confirm Password</label>
+                    <input type="password" id="confirm-password-pro" name="confirm-password"
+                        placeholder="Confirm your password" class="input input-bordered form-input w-full" required>
+                </div>
+                <div class="mb-4">
+                    <label for="credit-card-pro" class="block mb-2 font-semibold">Credit Card Number (12 digits)</label>
+                    <input type="text" id="credit-card-pro" name="credit-card"
+                        placeholder="Enter your credit card number" class="input input-bordered form-input w-full"
+                        pattern="[0-9]{12}" required>
+                </div>
+                <div class="mb-4">
+                    <label for="expiry-date-pro" class="block mb-2 font-semibold">Expiry Date (MM/YY)</label>
+                    <input type="text" id="expiry-date-pro" name="expiry-date" placeholder="MM/YY"
+                        class="input input-bordered form-input w-full"
+                        pattern="(0[1-9]|1[0-2])\/(1[0-9]|2[0-9]|3[0-1]|\d)" required
+                        oninput="formatExpiryDate(event, 'pro')">
+                </div>
+                <div class="mb-4">
+                    <label for="cvv-pro" class="block mb-2 font-semibold">CVV (3 digits)</label>
+                    <input type="password" id="cvv-pro" name="cvv" placeholder="Enter your CVV"
+                        class="input input-bordered form-input w-full" pattern="[0-9]{3}" required>
+                </div>
+                <div class="mb-4">
+                    <label for="billing-address-pro" class="block mb-2 font-semibold">Billing Address</label>
+                    <input type="text" id="billing-address-pro" name="billing-address"
+                        placeholder="Enter your billing address" class="input input-bordered form-input w-full"
+                        required>
+                </div>
+                <button type="submit" class="btn btn-primary form-subscribe-btn w-full">Subscribe Now</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer bg-gray-800 py-4">
+        <div class="container mx-auto text-center text-white">
+            <p>&copy; All rights reserved, 2024 TaskMaster Inc.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle theme function
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'night' ? 'light' : 'night';
+            html.setAttribute('data-theme', newTheme);
+        }
+
+        // Validate form function
+        function validateForm(plan) {
+            const passwordField = document.getElementById(`password-${plan}`);
+            const confirmPasswordField = document.getElementById(`confirm-password-${plan}`);
+
+            if (passwordField.value !== confirmPasswordField.value) {
+                alert("Passwords do not match");
+                return false;
+            }
+            return true;
+        }
+
+        // Format expiry date with slash
+        function formatExpiryDate(event, plan) {
+            let input = event.target.value;
+            if (input.length === 2 && !input.includes('/')) {
+                event.target.value += '/';
+            }
+        }
+    </script>
+</body>
+
+</html>

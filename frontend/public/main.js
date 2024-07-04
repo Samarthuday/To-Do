@@ -235,4 +235,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add your logout functionality here
         alert('Logging out...');
     });
+
+    function toggleTheme() {
+        const theme = document.documentElement.getAttribute("data-theme");
+        if (theme === "dark") {
+            document.documentElement.setAttribute("data-theme", "light");
+        } else {
+            document.documentElement.setAttribute("data-theme", "dark");
+        }
+    }
 });

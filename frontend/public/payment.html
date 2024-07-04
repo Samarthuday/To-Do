@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - TaskMaster</title>
+
+    <!-- Tailwind CSS & Daisy UI CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.18.0/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #ffffff; /* white background */
+            color: #1a202c; /* text color */
+        }
+
+        .payment-container {
+            background-color: #1a202c; /* dark blue form background */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-white flex flex-col min-h-screen">
+    <nav class="fixed-header flex justify-between items-center p-6 bg-gray-800 shadow-lg w-full">
+        <div class="flex items-center space-x-4">
+            <h1 class="text-3xl font-bold">TaskMaster</h1>
+            <a href="index.html#about" class="btn btn-outline btn-info">About</a>
+            <a href="index.html#features" class="btn btn-outline btn-info">Features</a>
+            <a href="index.html#pricing" class="btn btn-outline btn-info">Pricing</a>
+            <a href="index.html#feedback" class="btn btn-outline btn-info">Feedback</a>
+            <a href="index.html#contact" class="btn btn-outline btn-info">Contact Us</a>
+        </div>
+        <div class="flex items-center">
+            <div class="theme-toggle">
+                <input type="checkbox" id="theme-toggle" class="toggle toggle-primary" onchange="toggleTheme()">
+                <label for="theme-toggle" class="ml-2">Dark Mode</label>
+            </div>
+            <a href="login.html" class="btn btn-primary mx-2">Login</a>
+            <a href="signup.html" class="btn btn-primary">Sign Up</a>
+        </div>
+    </nav>
+
+    <main class="flex-grow flex items-center justify-center bg-gray-900">
+        <div class="payment-container bg-gray-800 text-white rounded-lg shadow-lg p-8 w-full max-w-7xl">
+            <h2 class="text-2xl font-bold mb-6">Payment Details</h2>
+            <p class="mb-4">Amount to Pay: $XX.XX</p>
+            <button class="btn btn-primary w-full" onclick="handlePayment()">Pay Now</button>
+        </div>
+    </main>
+
+    <footer class="footer bg-gray-800 py-4 w-full mt-auto flex justify-center">
+        <p>&copy; All rights reserved, 2024 TaskMaster Inc.</p>
+    </footer>
+
+    <script>
+        // Toggle theme function
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'night' ? 'light' : 'night';
+            html.setAttribute('data-theme', newTheme);
+        }
+
+        // Function to handle payment and redirect
+        function handlePayment() {
+            // Display thank you message
+            alert("Thank you for subscribing!");
+
+            // Redirect to home page (index.html)
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+
+</html>

@@ -19,51 +19,52 @@
 
         <!-- Priority Dropdown -->
         <section class="mb-6">
-            <div class="dropdown">
-                <label tabindex="0" class="btn m-1">Priority</label>
+            <div class="dropdown dropdown-hover ml-auto"> <!-- Adjusted the positioning with ml-auto -->
+                <label tabindex="0" class="btn m-1 hover:bg-gray-700">Priority</label> <!-- Added hover:bg-gray-700 for hover effect -->
                 <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 priority-dropdown-content">
-                    <li onclick="filterByPriority('highest')"><a><i class='bx bxs-up-arrow-circle text-red-500'></i> Highest</a></li>
-                    <li onclick="filterByPriority('high')"><a><i class='bx bxs-up-arrow text-orange-500'></i> High</a></li>
-                    <li onclick="filterByPriority('low')"><a><i class='bx bxs-down-arrow text-blue-500'></i> Low</a></li>
+                    <li onclick="filterByPriority('highest')">
+                        <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bxs-up-arrow-circle text-red-500'></i> Highest</a>
+                    </li>
+                    <li onclick="filterByPriority('high')">
+                        <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bxs-up-arrow text-orange-500'></i> High</a>
+                    </li>
+                    <li onclick="filterByPriority('low')">
+                        <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bxs-down-arrow text-blue-500'></i> Low</a>
+                    </li>
                 </ul>
             </div>
         </section>
 
         <!-- Categories Dropdown with Add/Delete Options -->
-<section class="mb-6">
-    <div class="dropdown">
-        <label tabindex="0" class="btn m-1">Categories</label>
-        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-            <li onclick="showAddCategoryForm()">
-                <a>
-                    <i class='bx bx-plus'></i> Add Category
-                </a>
-            </li>
-            <li onclick="showDeleteCategoryForm()">
-                <a>
-                    <i class='bx bx-minus'></i> Delete Category
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="mt-4" id="add-category-form" style="display: none;">
-        <input type="text" class="input input-bordered input-secondary w-full mb-2" placeholder="New Category Name" id="new-category-name">
-        <button class="btn btn-primary w-full" onclick="addCategory()">Add Category</button>
-    </div>
-    <div class="mt-4" id="delete-category-form" style="display: none;">
-        <label class="text-sm mb-2 block">Select category to delete:</label>
-        <select class="select select-bordered select-secondary w-full mb-2" id="delete-category-select">
-            <!-- Categories will be dynamically populated here -->
-        </select>
-        <button class="btn btn-danger w-full" onclick="deleteCategory()">Delete Category</button>
-    </div>
-</section>
-
+        <section class="mb-6">
+            <div class="dropdown dropdown-hover"> <!-- Added dropdown-hover class -->
+                <label tabindex="0" class="btn m-1 hover:bg-gray-700">Categories</label> <!-- Added hover:bg-gray-700 for hover effect -->
+                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                    <li onclick="showAddCategoryForm()">
+                        <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bx-plus'></i> Add Category</a>
+                    </li>
+                    <li onclick="showDeleteCategoryForm()">
+                        <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bx-minus'></i> Delete Category</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="mt-4" id="add-category-form" style="display: none;">
+                <input type="text" class="input input-bordered input-secondary w-full mb-2" placeholder="New Category Name" id="new-category-name">
+                <button class="btn btn-primary w-full" onclick="addCategory()">Add Category</button>
+            </div>
+            <div class="mt-4" id="delete-category-form" style="display: none;">
+                <label class="text-sm mb-2 block">Select category to delete:</label>
+                <select class="select select-bordered select-secondary w-full mb-2" id="delete-category-select">
+                    <!-- Categories will be dynamically populated here -->
+                </select>
+                <button class="btn btn-danger w-full" onclick="deleteCategory()">Delete Category</button>
+            </div>
+        </section>
 
         <!-- Trash Dropdown -->
         <section class="mb-6">
-            <div class="dropdown">
-                <label tabindex="0" class="btn m-1">Trash</label>
+            <div class="dropdown dropdown-hover"> <!-- Added dropdown-hover class -->
+                <label tabindex="0" class="btn m-1 hover:bg-gray-700">Trash</label> <!-- Added hover:bg-gray-700 for hover effect -->
                 <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52" id="trash-dropdown">
                     <!-- Deleted tasks will be moved here -->
                 </ul>
@@ -71,14 +72,12 @@
         </section>
     </aside>
 
-    <!-- Logout Button  & Theme Selector-->
+    <!-- Logout Button & Theme Selector -->
     <section>
         <div class="absolute bottom-4 left-4">
             <a href="index.html"><button class="btn btn-error" id="logout-button">Logout</button></a>
         </div>
     </section>
-</aside>
-
 
     <!-- Main Content -->
     <div class="flex-grow flex flex-col">
@@ -129,18 +128,12 @@
         </table>
     </div>
 
-    <div class="absolute bottom-4 right-4">
-        <div class="dropdown">
-            <button tabindex="0" class="btn btn-circle" id="theme-toggle">
-                <i class='bx bx-moon text-xl'></i>
-            </button>
-            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                <li onclick="setTheme('light')"><a>Light Mode</a></li>
-                <li onclick="setTheme('dark')"><a>Dark Mode</a></li>
-            </ul>
-        </div>
+    <!-- Theme Toggle Button -->
+    <div class="absolute bottom-4 right-4"> <!-- Positioned to the bottom-right corner -->
+        <button class="btn btn-circle btn-primary" onclick="toggleTheme()"> <!-- Changed to a button and added btn-primary for styling -->
+            <i class='bx bx-moon text-xl'></i> <!-- Icon for dark mode -->
+        </button>
     </div>
-
 
     <!-- Add Category Modal -->
     <div class="modal" id="add-category-modal">
@@ -153,8 +146,6 @@
             </div>
         </div>
     </div>
-
-    
 
     <!-- JavaScript -->
     <script src="js/main.js"></script>
