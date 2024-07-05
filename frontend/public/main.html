@@ -10,6 +10,11 @@
     <link rel="icon" type="image/svg+xml" href="res/favicon.ico">
     <link rel="stylesheet" href="mainstyle.css">
     <title>TaskMaster</title>
+    <style>
+        .wide-button {
+            width: 100px; /* Adjust the width as needed */
+        }
+    </style>
 </head>
 <body class="flex h-screen overflow-hidden">
 
@@ -19,8 +24,8 @@
 
         <!-- Priority Dropdown -->
         <section class="mb-6">
-            <div class="dropdown dropdown-hover ml-auto"> <!-- Adjusted the positioning with ml-auto -->
-                <label tabindex="0" class="btn m-1 hover:bg-gray-700">Priority</label> <!-- Added hover:bg-gray-700 for hover effect -->
+            <div class="dropdown dropdown-hover ml-auto">
+                <label tabindex="0" class="btn m-1 hover:bg-gray-700">Priority</label>
                 <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 priority-dropdown-content">
                     <li onclick="filterByPriority('highest')">
                         <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bxs-up-arrow-circle text-red-500'></i> Highest</a>
@@ -37,10 +42,10 @@
 
         <!-- Categories Dropdown with Add/Delete Options -->
         <section class="mb-6">
-            <div class="dropdown dropdown-hover"> <!-- Added dropdown-hover class -->
-                <label tabindex="0" class="btn m-1 hover:bg-gray-700">Categories</label> <!-- Added hover:bg-gray-700 for hover effect -->
+            <div class="dropdown dropdown-hover">
+                <label tabindex="0" class="btn m-1 hover:bg-gray-700">Categories</label>
                 <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                    <li onclick="showAddCategoryForm()">
+                    <li onclick="showAddCategoryModal()">
                         <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bx-plus'></i> Add Category</a>
                     </li>
                     <li onclick="showDeleteCategoryForm()">
@@ -63,8 +68,8 @@
 
         <!-- Trash Dropdown -->
         <section class="mb-6">
-            <div class="dropdown dropdown-hover"> <!-- Added dropdown-hover class -->
-                <label tabindex="0" class="btn m-1 hover:bg-gray-700">Trash</label> <!-- Added hover:bg-gray-700 for hover effect -->
+            <div class="dropdown dropdown-hover">
+                <label tabindex="0" class="btn m-1 hover:bg-gray-700">Trash</label>
                 <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52" id="trash-dropdown">
                     <!-- Deleted tasks will be moved here -->
                 </ul>
@@ -95,13 +100,11 @@
                     <option value="">Select Category</option>
                     <!-- Categories will be dynamically populated here -->
                 </select>
-                <button class="btn btn-secondary add-task-button">
+                <button class="btn btn-secondary add-task-button" onclick="addTask()">
                     <i class="bx bx-plus bx-sm"></i>
                 </button>
-            </div>
-            <div class="todos-filter">
-                <div class="dropdown">
-                    <label tabindex="0" class="btn m-1">Filter</label>
+                <div class="dropdown dropdown-hover">
+                    <label tabindex="0" class="btn wide-button">Filter</label>
                     <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
                         <li onclick="filterTodos('all')"><a>All</a></li>
                         <li onclick="filterTodos('pending')"><a>Pending</a></li>
@@ -122,32 +125,144 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody class="todos-list-body">
+            <tbody class="todos-list-body" id="todos-list-body">
                 <!-- Tasks will be dynamically added here -->
             </tbody>
         </table>
     </div>
 
     <!-- Theme Toggle Button -->
-    <div class="absolute bottom-4 right-4"> <!-- Positioned to the bottom-right corner -->
-        <button class="btn btn-circle btn-primary" onclick="toggleTheme()"> <!-- Changed to a button and added btn-primary for styling -->
-            <i class='bx bx-moon text-xl'></i> <!-- Icon for dark mode -->
+    <div class="absolute bottom-4 right-4">
+        <button class="btn btn-circle btn-primary" onclick="toggleTheme()">
+            <i class='bx bx-moon text-xl'></i>
         </button>
     </div>
 
     <!-- Add Category Modal -->
-    <div class="modal" id="add-category-modal">
+    <div class="modal" id="add-category-modal" style="display: none;">
         <div class="modal-box">
             <h3 class="font-bold text-lg">Add Category</h3>
             <input type="text" placeholder="Category Name" class="input input-bordered w-full mt-4" id="new-category-name-input">
             <div class="modal-action">
-                <button class="btn btn-primary" onclick="addCategory()">Submit</button>
-                <a href="#" class="btn" onclick="closeAddCategoryModal()">Cancel</a>
+                <button class="btn btn-primary" onclick="submitNewCategory()">Submit</button>
+                <button class="btn" onclick="closeAddCategoryModal()">Cancel</button>
             </div>
         </div>
     </div>
 
     <!-- JavaScript -->
-    <script src="js/main.js"></script>
+    <script>
+        const tasks = [];
+
+        // Show Add Category Modal
+        function showAddCategoryModal() {
+            document.getElementById('add-category-modal').style.display = 'block';
+        }
+
+        // Close Add Category Modal
+        function closeAddCategoryModal() {
+            document.getElementById('add-category-modal').style.display = 'none';
+        }
+
+        // Add New Category
+        function submitNewCategory() {
+            const categoryInput = document.getElementById('new-category-name-input');
+            const categoryName = categoryInput.value.trim();
+            if (categoryName) {
+                const categorySelect = document.getElementById('category-select');
+                const deleteCategorySelect = document.getElementById('delete-category-select');
+                const option = document.createElement('option');
+                option.value = categoryName;
+                option.textContent = categoryName;
+                categorySelect.appendChild(option);
+                deleteCategorySelect.appendChild(option.cloneNode(true));
+                categoryInput.value = '';
+                closeAddCategoryModal();
+            }
+        }
+
+        // Add Task
+        function addTask() {
+            const taskText = document.getElementById('new-task-text').value.trim();
+            const taskDate = document.getElementById('new-task-date').value;
+            const taskPriority = document.getElementById('priority-select').value;
+            const taskCategory = document.getElementById('category-select').value;
+
+            if (taskText && taskDate && taskPriority && taskCategory) {
+                const newTask = {
+                    text: taskText,
+                    date: taskDate,
+                    priority: taskPriority,
+                    category: taskCategory,
+                    status: 'pending'
+                };
+                tasks.push(newTask);
+                renderTasks();
+            }
+        }
+
+        // Render Tasks
+        function renderTasks() {
+            const todosListBody = document.getElementById('todos-list-body');
+            todosListBody.innerHTML = '';
+            tasks.forEach((task, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${task.text}</td>
+                    <td>${task.date}</td>
+                    <td>${task.priority}</td>
+                    <td>${task.category}</td>
+                    <td>${task.status}</td>
+                    <td>
+                        <button class="btn btn-sm btn-success" onclick="completeTask(${index})">Complete</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteTask(${index})">Delete</button>
+                    </td>
+                `;
+                todosListBody.appendChild(row);
+            });
+        }
+
+        // Complete Task
+        function completeTask(index) {
+            tasks[index].status = 'completed';
+            renderTasks();
+        }
+
+        // Delete Task
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            renderTasks();
+        }
+
+        // Filter Todos
+        function filterTodos(status) {
+            const todosListBody = document.getElementById('todos-list-body');
+            todosListBody.innerHTML = '';
+            tasks
+                .filter(task => status === 'all' || task.status === status)
+                .forEach((task, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${task.text}</td>
+                        <td>${task.date}</td>
+                        <td>${task.priority}</td>
+                        <td>${task.category}</td>
+                        <td>${task.status}</td>
+                        <td>
+                            <button class="btn btn-sm btn-success" onclick="completeTask(${index})">Complete</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteTask(${index})">Delete</button>
+                        </td>
+                    `;
+                    todosListBody.appendChild(row);
+                });
+        }
+
+        // Toggle Theme
+        function toggleTheme() {
+            const htmlElement = document.documentElement;
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            htmlElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+        }
+    </script>
 </body>
 </html>

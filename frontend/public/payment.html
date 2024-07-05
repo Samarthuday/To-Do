@@ -47,7 +47,7 @@
     <main class="flex-grow flex items-center justify-center bg-gray-900">
         <div class="payment-container bg-gray-800 text-white rounded-lg shadow-lg p-8 w-full max-w-7xl">
             <h2 class="text-2xl font-bold mb-6">Payment Details</h2>
-            <p class="mb-4">Amount to Pay: $XX.XX</p>
+            <p class="mb-4">Amount to Pay: <span id="amount-to-pay">$XX.XX</span></p>
             <button class="btn btn-primary w-full" onclick="handlePayment()">Pay Now</button>
         </div>
     </main>
@@ -57,6 +57,29 @@
     </footer>
 
     <script>
+        // Function to get query parameter
+        function getQueryParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Set the payment amount based on the plan
+        document.addEventListener('DOMContentLoaded', function () {
+            const plan = getQueryParameter('plan');
+            const amountToPayElement = document.getElementById('amount-to-pay');
+            
+            let amount;
+            if (plan === 'subscribe') {
+                amount = '$9.99';
+            } else if (plan === 'pro') {
+                amount = '$19.99';
+            } else {
+                amount = 'Invalid Plan'; // default value if plan is not recognized
+            }
+
+            amountToPayElement.textContent = amount;
+        });
+
         // Toggle theme function
         function toggleTheme() {
             const html = document.documentElement;

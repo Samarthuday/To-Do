@@ -211,6 +211,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Function to filter tasks
+    function filterTodos(category, priority) {
+        const tasks = getTasks();
+        const filteredTasks = tasks.filter(task => {
+            return (category === 'All' || task.category === category) &&
+                   (priority === 'All' || task.priority === priority);
+        });
+        todosListBody.innerHTML = '';
+        filteredTasks.forEach(task => {
+            appendTask(task);
+        });
+    }
+
     // Function to set theme
     function setTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
