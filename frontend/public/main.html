@@ -14,67 +14,74 @@
         .wide-button {
             width: 100px; /* Adjust the width as needed */
         }
+        .task-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Adjust the gap between buttons as needed */
+}
+
+.task-buttons button {
+    width: 100px; /* Adjust the width as needed */
+    margin-top: 5px;
+    border: 2px solid white; /* Add some margin to space out buttons */
+}
+
     </style>
 </head>
 <body class="flex h-screen overflow-hidden">
-
     <!-- Sidebar -->
     <aside class="bg-gray-800 text-white w-64 flex-shrink-0 p-4">
         <h1 class="text-2xl font-bold mb-4">TaskMaster</h1>
 
         <!-- Priority Dropdown -->
         <section class="mb-6">
-            <div class="dropdown dropdown-hover ml-auto">
+            <div class="dropdown dropdown-hover">
                 <label tabindex="0" class="btn m-1 hover:bg-gray-700">Priority</label>
-                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 priority-dropdown-content">
-                    <li onclick="filterByPriority('highest')">
-                        <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bxs-up-arrow-circle text-red-500'></i> Highest</a>
+                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                    <li onclick="filterByPriority('High')">
+                        <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bxs-up-arrow-circle text-red-500'></i> High</a>
                     </li>
-                    <li onclick="filterByPriority('high')">
-                        <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bxs-up-arrow text-orange-500'></i> High</a>
+                    <li onclick="filterByPriority('Medium')">
+                        <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bxs-up-arrow text-orange-500'></i> Medium</a>
                     </li>
-                    <li onclick="filterByPriority('low')">
+                    <li onclick="filterByPriority('Low')">
                         <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bxs-down-arrow text-blue-500'></i> Low</a>
                     </li>
                 </ul>
             </div>
         </section>
 
-        <!-- Categories Dropdown with Add/Delete Options -->
+        <!-- Categories Dropdown -->
         <section class="mb-6">
             <div class="dropdown dropdown-hover">
                 <label tabindex="0" class="btn m-1 hover:bg-gray-700">Categories</label>
                 <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                    <li onclick="showAddCategoryModal()">
-                        <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bx-plus'></i> Add Category</a>
-                    </li>
-                    <li onclick="showDeleteCategoryForm()">
-                        <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bx-minus'></i> Delete Category</a>
-                    </li>
+                    <li><a class="hover:bg-gray-200 hover:text-gray-900" onclick="filterByCategory('Work')">Work</a></li>
+                    <li><a class="hover:bg-gray-200 hover:text-gray-900" onclick="filterByCategory('Personal')">Personal</a></li>
+                    <li><a class="hover:bg-gray-200 hover:text-gray-900" onclick="filterByCategory('Home')">Home</a></li>
+                    <li><a class="hover:bg-gray-200 hover:text-gray-900" onclick="filterByCategory('Fitness')">Fitness</a></li>
+                    <li><a class="hover:bg-gray-200 hover:text-gray-900" onclick="filterByCategory('Shopping')">Shopping</a></li>
+                    <li><a class="hover:bg-gray-200 hover:text-gray-900" onclick="filterByCategory('Errands')">Errands</a></li>
+                    <li><a class="hover:bg-gray-200 hover:text-gray-900" onclick="filterByCategory('Health')">Health</a></li>
+                    <li><a class="hover:bg-gray-200 hover:text-gray-900" onclick="filterByCategory('Family')">Family</a></li>
+                    <li><a class="hover:bg-gray-200 hover:text-gray-900" onclick="filterByCategory('Finance')">Finance</a></li>
+                    <li><a class="hover:bg-gray-200 hover:text-gray-900" onclick="filterByCategory('Hobbies')">Hobbies</a></li>
+                    <li><a class="hover:bg-gray-200 hover:text-gray-900" onclick="filterByCategory('Social')">Social</a></li>
+                    <li><a class="hover:bg-gray-200 hover:text-gray-900" onclick="filterByCategory('Education')">Education</a></li>
+                    <li><a class="hover:bg-gray-200 hover:text-gray-900" onclick="filterByCategory('Travel')">Travel</a></li>
+                    <li><a class="hover:bg-gray-200 hover:text-gray-900" onclick="filterByCategory('Projects')">Projects</a></li>
+                    <li><a class="hover:bg-gray-200 hover:text-gray-900" onclick="filterByCategory('Miscellaneous')">Miscellaneous</a></li>
                 </ul>
             </div>
-            <div class="mt-4" id="add-category-form" style="display: none;">
-                <input type="text" class="input input-bordered input-secondary w-full mb-2" placeholder="New Category Name" id="new-category-name">
-                <button class="btn btn-primary w-full" onclick="addCategory()">Add Category</button>
-            </div>
-            <div class="mt-4" id="delete-category-form" style="display: none;">
-                <label class="text-sm mb-2 block">Select category to delete:</label>
-                <select class="select select-bordered select-secondary w-full mb-2" id="delete-category-select">
-                    <!-- Categories will be dynamically populated here -->
-                </select>
-                <button class="btn btn-danger w-full" onclick="deleteCategory()">Delete Category</button>
-            </div>
         </section>
-
+        <div class="dropdown dropdown-hover">
+            <label tabindex="0" class="btn wide-button">Status</label>
+            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                <li onclick="filterByStatus('Pending')"><a>Pending</a></li>
+                <li onclick="filterByStatus('Completed')"><a>Completed</a></li>
+            </ul>
+        </div>
         <!-- Trash Dropdown -->
-        <section class="mb-6">
-            <div class="dropdown dropdown-hover">
-                <label tabindex="0" class="btn m-1 hover:bg-gray-700">Trash</label>
-                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52" id="trash-dropdown">
-                    <!-- Deleted tasks will be moved here -->
-                </ul>
-            </div>
-        </section>
     </aside>
 
     <!-- Logout Button & Theme Selector -->
@@ -90,27 +97,34 @@
             <div class="input-section flex items-center">
                 <input type="text" placeholder="Add a todo . . ." class="input input-bordered input-secondary mr-2" id="new-task-text">
                 <input type="date" class="input input-bordered input-secondary mr-2" id="new-task-date">
+                <input type="time" class="input input-bordered input-secondary mr-2" id="new-task-time">
                 <select id="priority-select" class="select select-bordered select-secondary mr-2">
                     <option value="">Select Priority</option>
-                    <option value="high">High</option>
-                    <option value="medium">Medium</option>
-                    <option value="low">Low</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
                 </select>
                 <select id="category-select" class="select select-bordered select-secondary mr-2">
                     <option value="">Select Category</option>
-                    <!-- Categories will be dynamically populated here -->
+                    <option value="Work">Work</option>
+                    <option value="Personal">Personal</option>
+                    <option value="Home">Home</option>
+                    <option value="Fitness">Fitness</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Errands">Errands</option>
+                    <option value="Health">Health</option>
+                    <option value="Family">Family</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Hobbies">Hobbies</option>
+                    <option value="Social">Social</option>
+                    <option value="Education">Education</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Projects">Projects</option>
+                    <option value="Miscellaneous">Miscellaneous</option>
                 </select>
                 <button class="btn btn-secondary add-task-button" onclick="addTask()">
                     <i class="bx bx-plus bx-sm"></i>
                 </button>
-                <div class="dropdown dropdown-hover">
-                    <label tabindex="0" class="btn wide-button">Filter</label>
-                    <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                        <li onclick="filterTodos('all')"><a>All</a></li>
-                        <li onclick="filterTodos('pending')"><a>Pending</a></li>
-                        <li onclick="filterTodos('completed')"><a>Completed</a></li>
-                    </ul>
-                </div>
             </div>
         </header>
 
@@ -119,6 +133,7 @@
                 <tr>
                     <th>Task</th>
                     <th>Due Date</th>
+                    <th>Due Time</th>
                     <th>Priority</th>
                     <th>Category</th>
                     <th>Status</th>
@@ -137,132 +152,296 @@
             <i class='bx bx-moon text-xl'></i>
         </button>
     </div>
-
-    <!-- Add Category Modal -->
-    <div class="modal" id="add-category-modal" style="display: none;">
-        <div class="modal-box">
-            <h3 class="font-bold text-lg">Add Category</h3>
-            <input type="text" placeholder="Category Name" class="input input-bordered w-full mt-4" id="new-category-name-input">
-            <div class="modal-action">
-                <button class="btn btn-primary" onclick="submitNewCategory()">Submit</button>
-                <button class="btn" onclick="closeAddCategoryModal()">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript -->
+    <audio src="main_audio.mp3" id="notificationSound"></audio>
     <script>
-        const tasks = [];
 
-        // Show Add Category Modal
-        function showAddCategoryModal() {
-            document.getElementById('add-category-modal').style.display = 'block';
-        }
+let tasks = [];
 
-        // Close Add Category Modal
-        function closeAddCategoryModal() {
-            document.getElementById('add-category-modal').style.display = 'none';
-        }
+document.addEventListener('DOMContentLoaded', function () {
+    fetchTasksFromDatabase();
+});
 
-        // Add New Category
-        function submitNewCategory() {
-            const categoryInput = document.getElementById('new-category-name-input');
-            const categoryName = categoryInput.value.trim();
-            if (categoryName) {
-                const categorySelect = document.getElementById('category-select');
-                const deleteCategorySelect = document.getElementById('delete-category-select');
-                const option = document.createElement('option');
-                option.value = categoryName;
-                option.textContent = categoryName;
-                categorySelect.appendChild(option);
-                deleteCategorySelect.appendChild(option.cloneNode(true));
-                categoryInput.value = '';
-                closeAddCategoryModal();
+function addTask() {
+    const taskText = document.getElementById('new-task-text').value;
+    const taskDate = document.getElementById('new-task-date').value;
+    const taskTime = document.getElementById('new-task-time').value;
+    //alert(taskTime);
+    const taskPriority = document.getElementById('priority-select').value;
+    const taskCategory = document.getElementById('category-select').value;
+
+    if (taskText && taskDate && taskPriority && taskCategory &&taskTime) {
+        const newTask = {
+            text: taskText,
+            date: taskDate,
+            time: taskTime,
+            priority: taskPriority,
+            category: taskCategory,
+            status: 'Pending'
+        };
+
+        tasks.push(newTask);
+        renderTasks(tasks);
+        
+        saveTaskToDatabase(newTask);
+        fetchTasks();
+    } else {
+        alert('Please fill in all fields.');
+    }
+}
+
+function addReminder(taskText, taskCategory, dateTimeString)
+{
+
+}
+
+function fetchTasks() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'fetch_tasks.php', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                tasks = JSON.parse(xhr.responseText);
+                renderTasks(tasks);
+                renderTrashDropdown(tasks);
+            } else {
+                console.error('Failed to fetch tasks.');
             }
         }
+    };
+    xhr.send();
+}
 
-        // Add Task
-        function addTask() {
-            const taskText = document.getElementById('new-task-text').value.trim();
-            const taskDate = document.getElementById('new-task-date').value;
-            const taskPriority = document.getElementById('priority-select').value;
-            const taskCategory = document.getElementById('category-select').value;
+function renderTasks(tasks) {
+    const taskList = document.getElementById('task-list');
+    taskList.innerHTML = ''; // Clear existing content
+    tasks.forEach((task, index) => {
+        if (task.status !== 'deleted') {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span>${task.task}</span>
+                <button onclick="deleteTask(${index})">Delete</button>
+            `;
+            taskList.appendChild(li);
+        }
+    });
+}
 
-            if (taskText && taskDate && taskPriority && taskCategory) {
-                const newTask = {
-                    text: taskText,
-                    date: taskDate,
-                    priority: taskPriority,
-                    category: taskCategory,
-                    status: 'pending'
-                };
-                tasks.push(newTask);
-                renderTasks();
+function moveTaskToTrash(index) {
+    const task = tasks[index];
+    tasks.splice(index, 1);
+    renderTasks(tasks);
+
+    // Move task to trash in the database
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'move_to_trash.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log('Task moved to trash successfully.');
+                renderTrashDropdown(tasks);
+            } else {
+                console.error('Failed to move task to trash.');
             }
         }
+    };
+    xhr.send(`task=${encodeURIComponent(task.task)}`);
+}
 
-        // Render Tasks
-        function renderTasks() {
-            const todosListBody = document.getElementById('todos-list-body');
-            todosListBody.innerHTML = '';
-            tasks.forEach((task, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${task.text}</td>
-                    <td>${task.date}</td>
-                    <td>${task.priority}</td>
-                    <td>${task.category}</td>
-                    <td>${task.status}</td>
-                    <td>
-                        <button class="btn btn-sm btn-success" onclick="completeTask(${index})">Complete</button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteTask(${index})">Delete</button>
-                    </td>
-                `;
-                todosListBody.appendChild(row);
-            });
-        }
+// Call fetchTasks when the page loads
+//window.onload = fetchTasks;
 
-        // Complete Task
-        function completeTask(index) {
-            tasks[index].status = 'completed';
-            renderTasks();
-        }
+function renderTasks(taskList) {
+    const tableBody = document.getElementById('todos-list-body');
+    tableBody.innerHTML = '';
 
-        // Delete Task
-        function deleteTask(index) {
-            tasks.splice(index, 1);
-            renderTasks();
-        }
+    taskList.forEach((task, index) => {
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td>${task.task}</td>
+            <td>${task.due_date}</td>
+            <td>${task.due_time}</td>
+            <td>${task.priority}</td>
+            <td>${task.category}</td>
+            <td>${task.status}</td>
+            <td>
+            <div class = "task-buttons">
+                <button onclick="updateTaskStatus(${index}, 'Completed')">Complete</button>
+                <button onclick="updateTaskStatus(${index}, 'Pending')">Pending</button>
+                <button onclick="deleteTask(${index})">Delete</button>
+            </div>
+            </td>
+        `;
+        tableBody.appendChild(newRow);
+    });
+}
+function deleteTask(index) {
+    const task = tasks[index];
 
-        // Filter Todos
-        function filterTodos(status) {
-            const todosListBody = document.getElementById('todos-list-body');
-            todosListBody.innerHTML = '';
-            tasks
-                .filter(task => status === 'all' || task.status === status)
-                .forEach((task, index) => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${task.text}</td>
-                        <td>${task.date}</td>
-                        <td>${task.priority}</td>
-                        <td>${task.category}</td>
-                        <td>${task.status}</td>
-                        <td>
-                            <button class="btn btn-sm btn-success" onclick="completeTask(${index})">Complete</button>
-                            <button class="btn btn-sm btn-danger" onclick="deleteTask(${index})">Delete</button>
-                        </td>
-                    `;
-                    todosListBody.appendChild(row);
-                });
+    // Update task status to 'deleted' in the database
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'delete_task.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.status === 'success') {
+                    console.log(response.message);
+                    tasks.splice(index, 1); // Remove task from local array
+                    renderTasks(tasks); // Re-render tasks list
+                } else {
+                    console.error(response.message);
+                }
+            } else {
+                console.error('Failed to delete task.');
+            }
         }
+    };
+    xhr.send(`task=${encodeURIComponent(task.task)}`);
+}
 
-        // Toggle Theme
-        function toggleTheme() {
-            const htmlElement = document.documentElement;
-            const currentTheme = htmlElement.getAttribute('data-theme');
-            htmlElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+function updateTaskStatus(index, status) {
+    const task = tasks[index];
+    task.status = status;
+    renderTasks(tasks);
+
+    // Update status in the database
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'update_task.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log('Task status updated successfully.');
+            } else {
+                console.error('Failed to update task status.');
+            }
         }
+    };
+    xhr.send(`task=${encodeURIComponent(task.task)}&status=${encodeURIComponent(status)}`);
+}
+
+
+
+function moveToTrash(index) {
+    const task = tasks[index];
+    tasks.splice(index, 1);
+    renderTasks(tasks);
+
+    // Move task to trash in the database
+    moveTaskToTrashInDatabase(task);
+}
+
+function deleteTaskFromDatabase(task) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'delete_task.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log('Task deleted successfully from database.');
+            } else {
+                console.error('Failed to delete task from database.');
+            }
+        }
+    };
+    xhr.send(`task=${task.text}`);
+}
+
+function saveTaskToDatabase(task) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'save_task.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log('Task saved successfully.');
+            } else {
+                console.error('Failed to save task.');
+            }
+        }
+    };
+    xhr.send(`task=${task.text}&due_date=${task.date}&due_time=${task.time}&priority=${task.priority}&category=${task.category}&status=${task.status}`);
+}
+
+function updateTaskInDatabase(task) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'update_task.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log('Task status updated successfully.');
+            } else {
+                console.error('Failed to update task status.');
+            }
+        }
+    };
+    xhr.send(`task=${task.text}&status=${task.status}`);
+}
+
+function moveTaskToTrashInDatabase(task) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'move_to_trash.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log('Task moved to trash successfully.');
+                // After moving to trash, delete task from database
+                deleteTaskFromDatabase(task);
+            } else {
+                console.error('Failed to move task to trash.');
+            }
+        }
+    };
+    xhr.send(`task=${task.text}`);
+}
+
+function fetchTasksFromDatabase() {
+    fetch('fetch_tasks.php', {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        tasks = data;
+         // Update tasks array with fetched data
+        renderTasks(tasks); // Render tasks in the HTML table
+    })
+    .catch(error => console.error('Error fetching tasks:', error));
+}
+
+function filterByPriority(priority) {
+    const filteredTasks = tasks.filter(task => task.priority === priority);
+    renderTasks(filteredTasks);
+}
+
+function filterByCategory(category) {
+    const filteredTasks = tasks.filter(task => task.category === category);
+    renderTasks(filteredTasks);
+}
+function filterByStatus(status) {
+    const filteredTasks = tasks.filter(task => task.status === status);
+    renderTasks(filteredTasks);
+}
+function filterTodos(status) {
+    let filteredTasks = [];
+    if (status === 'Pending') {
+        filteredTasks = tasks.filter(task => task.status.lower() === 'Pending');
+    } else if (status === 'Completed') {
+        filteredTasks = tasks.filter(task => task.status.lower() === 'Completed');
+    } else {
+        filteredTasks = tasks; // Show all tasks
+    }
+    renderTasks(filteredTasks);
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+}
     </script>
 </body>
 </html>

@@ -1,20 +1,9 @@
 <?php
-// Database configuration
-$servername = "localhost";  // Replace with your MySQL server name
-$username = "root";     // Replace with your MySQL username
-$password = "";     // Replace with your MySQL password
-$dbname = "to_do_list";       // Replace with your MySQL database name
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include "config.php";
 
 // Initialize variables for form data
-$email = "";$password = "";
+$email = "";
+$password = "";
 
 // Form submission handling
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -33,8 +22,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, password_hash($pass, PASSWORD_DEFAULT))) {
             // Password verified, start session and redirect to main.html
             session_start();
-            $_SESSION['user_id'] = $user['id'];  // Store user ID in session
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['email'] = $email;  // Store user ID in session
             header("Location: main.html");
+            
+            // Create a unique table name for the user
+            $userTable = "user_" . md5($email);
+            // Create table query
+            $createTableQuery = "CREATE TABLE IF NOT EXISTS $userTable (
+                id INT(11) AUTO_INCREMENT PRIMARY KEY,
+                task VARCHAR(255) NOT NULL,
+                due_date DATE NOT NULL,
+                due_time TIME NOT NULL,
+                priority varchar(255) NOT NULL,
+                category VARCHAR(255) NOT NULL,
+                status VARCHAR(50) NOT NULL,
+                actions TEXT NOT NULL
+            )";
+            mysqli_query($conn, $createTableQuery);
+
+            // Create a text file for deleted tasks
+            $deletedTasksFile = "deleted_tasks_" . md5($email) . ".txt";
+            if (!file_exists($deletedTasksFile)) {
+                file_put_contents($deletedTasksFile, "Deleted Tasks:\n");
+            }
+            
             exit();
         } else {
             // Invalid password
