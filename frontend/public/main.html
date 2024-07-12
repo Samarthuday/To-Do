@@ -15,17 +15,16 @@
             width: 100px; /* Adjust the width as needed */
         }
         .task-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 5px; /* Adjust the gap between buttons as needed */
-}
+            display: flex;
+            flex-direction: column;
+            gap: 5px; /* Adjust the gap between buttons as needed */
+        }
 
-.task-buttons button {
-    width: 100px; /* Adjust the width as needed */
-    margin-top: 5px;
-    border: 2px solid white; /* Add some margin to space out buttons */
-}
-
+        .task-buttons button {
+            width: 100px; /* Adjust the width as needed */
+            margin-top: 5px;
+            border: 2px solid white; /* Add some margin to space out buttons */
+        }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden">
@@ -42,11 +41,9 @@
                         <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bxs-up-arrow-circle text-red-500'></i> High</a>
                     </li>
                     <li onclick="filterByPriority('Medium')">
-                        <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bxs-up-arrow text-orange-500'></i> Medium</a>
-                    </li>
+                        <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bxs-up-arrow text-orange-500'></i> Medium</a></li>
                     <li onclick="filterByPriority('Low')">
-                        <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bxs-down-arrow text-blue-500'></i> Low</a>
-                    </li>
+                        <a class="hover:bg-gray-200 hover:text-gray-900"><i class='bx bxs-down-arrow text-blue-500'></i> Low</a></li>
                 </ul>
             </div>
         </section>
@@ -99,13 +96,13 @@
                 <input type="date" class="input input-bordered input-secondary mr-2" id="new-task-date">
                 <input type="time" class="input input-bordered input-secondary mr-2" id="new-task-time">
                 <select id="priority-select" class="select select-bordered select-secondary mr-2">
-                    <option value="">Select Priority</option>
+                    <option disabled selected>Priority</option>
                     <option value="High">High</option>
                     <option value="Medium">Medium</option>
                     <option value="Low">Low</option>
                 </select>
                 <select id="category-select" class="select select-bordered select-secondary mr-2">
-                    <option value="">Select Category</option>
+                    <option disabled selected>Category</option>
                     <option value="Work">Work</option>
                     <option value="Personal">Personal</option>
                     <option value="Home">Home</option>
@@ -122,37 +119,179 @@
                     <option value="Projects">Projects</option>
                     <option value="Miscellaneous">Miscellaneous</option>
                 </select>
-                <button class="btn btn-secondary add-task-button" onclick="addTask()">
-                    <i class="bx bx-plus bx-sm"></i>
-                </button>
+                <button class="btn btn-primary" onclick="addTask()">Add Task</button>
             </div>
         </header>
 
-        <table class="table w-full">
-            <thead>
-                <tr>
-                    <th>Task</th>
-                    <th>Due Date</th>
-                    <th>Due Time</th>
-                    <th>Priority</th>
-                    <th>Category</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody class="todos-list-body" id="todos-list-body">
-                <!-- Tasks will be dynamically added here -->
-            </tbody>
-        </table>
+        <main class="p-4 overflow-auto flex-grow">
+            <table class="table table-zebra w-full">
+                <thead>
+                    <tr>
+                        <th>Task</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Priority</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="todos-list-body">
+                    <!-- Task items will be appended here -->
+                </tbody>
+            </table>
+        </main>
     </div>
-
-    <!-- Theme Toggle Button -->
-    <div class="absolute bottom-4 right-4">
-        <button class="btn btn-circle btn-primary" onclick="toggleTheme()">
-            <i class='bx bx-moon text-xl'></i>
+    <div class="absolute top-4 right-4">
+        <button class="btn btn-circle" onclick="toggleTheme()">
+            <i class="bx bx-moon"></i>
         </button>
     </div>
-    <audio src="main_audio.mp3" id="notificationSound"></audio>
-    <script src="main.js"></script>
+
+    <!-- Notification Sound -->
+    <audio id="notification-sound" src="res/notification_sound.mp3" preload="auto"></audio>
+
+    <script>
+        let todos = [];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadTodos();
+            displayTodos();
+            todos.forEach(task => scheduleNotification(task));
+        });
+
+        function requestNotificationPermission() {
+            if (Notification.permission !== "granted") {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        console.log("Notification permission granted.");
+                    } else {
+                        console.log("Notification permission denied.");
+                    }
+                });
+            }
+        }
+
+        function addTask() {
+            const taskText = document.getElementById("new-task-text").value;
+            const taskDate = document.getElementById("new-task-date").value;
+            const taskTime = document.getElementById("new-task-time").value;
+            const priority = document.getElementById("priority-select").value;
+            const category = document.getElementById("category-select").value;
+
+            if (taskText === "" || taskDate === "" || taskTime === "" || priority === "" || category === "") {
+                alert("Please fill in all fields");
+                return;
+            }
+
+            const newTask = {
+                id: Date.now(),
+                text: taskText,
+                date: taskDate,
+                time: taskTime,
+                priority: priority,
+                category: category,
+                status: "Pending"
+            };
+
+            todos.push(newTask);
+            saveTodos();
+            displayTodos();
+            scheduleNotification(newTask);
+
+            document.getElementById("new-task-text").value = "";
+            document.getElementById("new-task-date").value = "";
+            document.getElementById("new-task-time").value = "";
+            document.getElementById("priority-select").value = "";
+            document.getElementById("category-select").value = "";
+        }
+
+        function saveTodos() {
+            localStorage.setItem("todos", JSON.stringify(todos));
+        }
+
+        function loadTodos() {
+            const storedTodos = localStorage.getItem("todos");
+            if (storedTodos) {
+                todos = JSON.parse(storedTodos);
+            }
+        }
+
+        function displayTodos() {
+            const todosListBody = document.getElementById("todos-list-body");
+            todosListBody.innerHTML = "";
+
+            todos.forEach((todo) => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${todo.text}</td>
+                    <td>${todo.date}</td>
+                    <td>${todo.time}</td>
+                    <td>${todo.priority}</td>
+                    <td>${todo.category}</td>
+                    <td>${todo.status}</td>
+                    <td>
+                        <div class="task-buttons">
+                            <button class="btn btn-primary" onclick="markAsCompleted(${todo.id})">Complete</button>
+                            <button class="btn btn-error" onclick="deleteTask(${todo.id})">Delete</button>
+                        </div>
+                    </td>
+                `;
+
+                todosListBody.appendChild(row);
+            });
+        }
+
+        function markAsCompleted(id) {
+            const task = todos.find((todo) => todo.id === id);
+            if (task) {
+                task.status = "Completed";
+                saveTodos();
+                displayTodos();
+            }
+        }
+
+        function deleteTask(id) {
+            todos = todos.filter((todo) => todo.id !== id);
+            saveTodos();
+            displayTodos();
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            document.documentElement.setAttribute("data-theme", newTheme);
+        }
+
+        function scheduleNotification(task) {
+            const taskDateTime = new Date(`${task.date}T${task.time}`);
+            const timeUntilNotification = taskDateTime.getTime() - Date.now();
+
+            console.log(`Scheduling notification for task: ${task.text} at ${taskDateTime} which is in ${timeUntilNotification} ms`);
+
+            if (timeUntilNotification > 0) {
+                setTimeout(() => {
+                    showNotification(task);
+                }, timeUntilNotification);
+            }
+        }
+
+        function showNotification(task) {
+            if (Notification.permission === "granted") {
+                const notification = new Notification("TaskMaster", {
+                    body: `Reminder: ${task.text} is due now!`,
+                    icon: "res/favicon.ico"
+                });
+
+                const notificationSound = document.getElementById("notification-sound");
+                notificationSound.play();
+            } else {
+                console.log("Notification permission not granted.");
+            }
+        }
+
+        requestNotificationPermission();
+    </script>
 </body>
 </html>
