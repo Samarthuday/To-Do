@@ -1,9 +1,21 @@
+let todos = [];
 let tasks = [];
-
 document.addEventListener('DOMContentLoaded', function () {
     fetchTasksFromDatabase();
+    loadTodos();
+    todos.forEach(task => scheduleNotification(task));
 });
-
+function requestNotificationPermission() {
+            if (Notification.permission !== "granted") {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        console.log("Notification permission granted.");
+                    } else {
+                        console.log("Notification permission denied.");
+                    }
+                });
+            }
+        }
 function addTask() {
     const taskText = document.getElementById('new-task-text').value;
     const taskDate = document.getElementById('new-task-date').value;
@@ -21,7 +33,15 @@ function addTask() {
             category: taskCategory,
             status: 'Pending'
         };
+        todos.push(newTask);
+        saveTodos();
+        scheduleNotification(newTask);
 
+            document.getElementById("new-task-text").value = "";
+            document.getElementById("new-task-date").value = "";
+            document.getElementById("new-task-time").value = "";
+            document.getElementById("priority-select").value = "";
+            document.getElementById("category-select").value = "";
         tasks.push(newTask);
         renderTasks(tasks);
         
@@ -32,11 +52,44 @@ function addTask() {
     }
 }
 
-function addReminder(taskText, taskCategory, dateTimeString)
-{
-
+function saveTodos() {
+    localStorage.setItem("todos", JSON.stringify(todos));
 }
 
+function loadTodos() {
+    const storedTodos = localStorage.getItem("todos");
+    if (storedTodos) {
+        todos = JSON.parse(storedTodos);
+    }
+}
+function scheduleNotification(task) {
+    const taskDateTime = new Date(`${task.date}T${task.time}`);
+    const timeUntilNotification = taskDateTime.getTime() - Date.now();
+
+    console.log(`Scheduling notification for task: ${task.text} at ${taskDateTime} which is in ${timeUntilNotification} ms`);
+
+    if (timeUntilNotification > 0) {
+        setTimeout(() => {
+            showNotification(task);
+        }, timeUntilNotification);
+    }
+}
+
+function showNotification(task) {
+    if (Notification.permission === "granted") {
+        const notification = new Notification("TaskMaster", {
+            body: `Reminder: ${task.text} is due now!`,
+            icon: "res/favicon.ico"
+        });
+
+        const notificationSound = document.getElementById("notification-sound");
+        notificationSound.play();
+    } else {
+        console.log("Notification permission not granted.");
+    }
+}
+
+requestNotificationPermission();
 function fetchTasks() {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', 'fetch_tasks.php', true);
@@ -109,9 +162,8 @@ function renderTasks(taskList) {
             <td>${task.status}</td>
             <td>
             <div class = "task-buttons">
-                <button onclick="updateTaskStatus(${index}, 'Completed')">Complete</button>
-                <button onclick="updateTaskStatus(${index}, 'Pending')">Pending</button>
-                <button onclick="deleteTask(${index})">Delete</button>
+                <button class="btn btn-primary" onclick="updateTaskStatus(${index}, 'Completed')">Complete</button>
+                <button class="btn btn-error" onclick="deleteTask(${index})">Delete</button>
             </div>
             </td>
         `;
